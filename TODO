@@ -1,0 +1,5 @@
+# TODO List
+- [ ] enlever les ft inutiles (drops etc.). peut-être les mettre dans old ou au moins dans un fichier ext. 
+- [ ] créer une ou des courbes qui mappent les valeurs PWM pour gérer le contraste / courbe
+- [ ] clarifier / cleaner la gestion des offset X, Y, H, W
+- [ ] faire fonctionner sur RP4080 et lecteur SD
