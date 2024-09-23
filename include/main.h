@@ -3,6 +3,7 @@
 
 // #include "video2led.h"
 
+// #define DEBUG
 // #define DEBUG_VIDEO
 #define GLOABL_CURRENT 10
 #define RANDOM_DROP_DUR 200

@@ -62,7 +62,8 @@ void loop()
 
   // studipTest();
   // noiseTest();
-  readAndProcessFile("test_processing_255.txt");
+  // readAndProcessFile("test_processing_255.txt");
+  readAndProcessFileBinary("image_data_binary.bin");
   // xfadeTest();
 
   // breathAllLed();

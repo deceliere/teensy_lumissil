@@ -9,6 +9,7 @@
 const int bufferSize = W_SOURCE * H_SOURCE; // pixel q
 // int pixel[bufferSize];
 String buffer;
+byte lineBuffer[W_SOURCE * H_SOURCE]; // Buffer pour stocker une ligne de pixels
 int values[bufferSize];
 u_int16_t valueMin = 0;
 u_int16_t valueMax = 0;
@@ -68,6 +69,86 @@ void readAndProcessFile(const char *filename)
   DPRINTLN(frameCount);
   DPRINT("loop duration (S): ");
   DPRINTLN(loopDur / 1000);
+}
+
+void readAndProcessFileBinary(const char *filename)
+{
+  File file = SD.open(filename);
+  // int readFrames = 0;
+  frameCount = 0;
+  elapsedMillis loopDur = 0;
+
+  if (file)
+  {
+    // Boucle de lecture des lignes du fichier
+    while (file.available())
+    {
+      file.read(lineBuffer, W_SOURCE * H_SOURCE);
+
+      // buffer = file.readStringUntil('\n', bufferSize * 5); // 3 chiffres max + virgule + espace
+      // DPRINT("buffer: \n");
+      // DPRINTLN(buffer);
+      // DPRINTLN("end bufffer");
+      // processLine(buffer);
+      displayFrameBinary();
+      delay(FRAME_DELAY);
+      // DPRINT("frame ");
+      // DPRINTLN(readFrames);
+      // readFrames++;
+    }
+    file.close();
+    DPRINTLN("file closed");
+  }
+  else
+  {
+    Serial.println("Erreur lors de l'ouverture du fichier");
+  }
+  frameCount++;
+  DPRINT("min value: ");
+  DPRINTLN(valueMin);
+  DPRINT("max value: ");
+  DPRINTLN(valueMax);
+  DPRINT("frametimer (microS) min: ");
+  DPRINTLN(frameTimerMin);
+  DPRINT("frametimer (microS) max: ");
+  DPRINTLN(frameTimerMax);
+  DPRINT("total microS variation span: ");
+  DPRINTLN(frameTimerMax - frameTimerMin);
+  DPRINT("total frame count: ");
+  DPRINTLN(frameCount);
+  DPRINT("loop duration (S): ");
+  DPRINTLN(loopDur / 1000);
+}
+
+void displayFrameBinary()
+{
+  matrixDot dot;
+  uint8_t buffer[192];
+  clearBuffer(buffer, 192);
+
+  for (int y = 0; y < 12; y++)
+  {
+    for (int x = 0; x < 12; x++)
+    {
+      dot.row = y;
+      dot.col = x;
+#ifdef EXPO_PWM
+      dot.pwm = expoPWM(lineBuffer[x + X_OFFSET + (y * W_SOURCE + (W_SOURCE * Y_OFFSET) + (12 - y))]);
+      if (dot.pwm > 255)
+        dot.pwm = 255;
+#else
+      dot.pwm = lineBuffer[x + X_OFFSET + (y * W_SOURCE + (W_SOURCE * Y_OFFSET) + (12 - y))];
+      if (dot.pwm == 1)
+        dot.pwm = 0;
+#endif
+      if (dot.pwm < valueMin)
+        valueMin = dot.pwm;
+      if (dot.pwm > valueMax)
+        valueMax = dot.pwm;
+      writeToBuffer(buffer, dot);
+    }
+  }
+  IS_I2C_BufferWrite(buffer, 192, 0, Addr_GND_GND);
 }
 
 void displayFrame()
