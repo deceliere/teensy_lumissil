@@ -25,6 +25,16 @@ void initExp(void)
   steps_count = expoPWM.stepsCount();
 }
 
+void printExpoScale(void)
+{
+  for (int i = 0; i < 256; i++)
+  {
+    DPRINT(i);
+    DPRINT("=");
+    DPRINTLN(expoPWM(i));
+  }
+}
+
 void readAndProcessFile(const char *filename)
 {
   File file = SD.open(filename);
@@ -77,7 +87,9 @@ void readAndProcessFileBinary(const char *filename)
   // int readFrames = 0;
   frameCount = 0;
   elapsedMillis loopDur = 0;
-
+#ifdef SERIAL_DEBUG
+  printExpoScale();
+#endif
   if (file)
   {
     // Boucle de lecture des lignes du fichier
@@ -120,6 +132,11 @@ void readAndProcessFileBinary(const char *filename)
   DPRINTLN(loopDur / 1000);
 }
 
+uint8_t gammaPixel(uint8_t maxValue, uint8_t initalValue, double gamma)
+{
+  return ((uint8_t)(maxValue * pow((float)initalValue / maxValue, gamma)));
+}
+
 void displayFrameBinary()
 {
   matrixDot dot;
@@ -136,6 +153,8 @@ void displayFrameBinary()
       dot.pwm = expoPWM(lineBuffer[x + X_OFFSET + (y * W_SOURCE + (W_SOURCE * Y_OFFSET) + (12 - y))]);
       if (dot.pwm > 255)
         dot.pwm = 255;
+#elif defined(GAMMA_PWM) // on lit le PWM passe d abord par l exponentiel, puis par le Gamma
+      dot.pwm = gammaPixel(255, expoPWM(lineBuffer[x + X_OFFSET + (y * W_SOURCE + (W_SOURCE * Y_OFFSET) + (12 - y))]), GAMMA);
 #else
       dot.pwm = lineBuffer[x + X_OFFSET + (y * W_SOURCE + (W_SOURCE * Y_OFFSET) + (12 - y))];
       if (dot.pwm == 1)
@@ -150,7 +169,7 @@ void displayFrameBinary()
   }
   IS_I2C_BufferWrite(buffer, 192, 0, Addr_GND_GND);
 }
-
+/*
 void displayFrame()
 {
   matrixDot dot;
@@ -167,6 +186,8 @@ void displayFrame()
       dot.pwm = expoPWM(values[x + X_OFFSET + (y * W_SOURCE + (W_SOURCE * Y_OFFSET) + (12 - y))]);
       if (dot.pwm > 255)
         dot.pwm = 255;
+#elif defined(GAMMA_PWM)
+      dot.pwm = gammaPixel(255, expoPWM(values[x + X_OFFSET + (y * W_SOURCE + (W_SOURCE * Y_OFFSET) + (12 - y))]), GAMMA);
 #else
       dot.pwm = values[x + X_OFFSET + (y * W_SOURCE + (W_SOURCE * Y_OFFSET) + (12 - y))];
       if (dot.pwm == 1)
@@ -181,6 +202,7 @@ void displayFrame()
   }
   IS_I2C_BufferWrite(buffer, 192, 0, Addr_GND_GND);
 }
+*/
 
 // pour test - a enlever
 u_int16_t frameTimerMin = 0;

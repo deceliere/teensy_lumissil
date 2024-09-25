@@ -7,7 +7,8 @@
 // #define SERIAL_DEBUG
 // #define VALUES_DEBUG
 // #define WAIT_SERIAL
-#define EXPO_PWM
+// #define EXPO_PWM
+#define GAMMA_PWM
 
 #ifdef SERIAL_DEBUG
 #define DPRINT(x) Serial.print(x)
@@ -36,6 +37,7 @@
 #define H_OFFSET 0
 #define X_OFFSET 4
 #define Y_OFFSET 0
+#define GAMMA 1.1
 
 // fts
 // test //
@@ -56,5 +58,10 @@ void displayFrameBinary();
 
 // test exponent
 void initExp(void);
+
+// test correct led curve
+uint8_t gammaPixel(uint8_t maxValue, uint8_t initalValue, double gamma);
+void printExpoScale(void);
+
 
 #endif

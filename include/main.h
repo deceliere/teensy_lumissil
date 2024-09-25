@@ -13,13 +13,13 @@
 #define RANDOM_MAX_PWM 100
 #define RANDOM_PWM_MIN 10
 
-#ifdef DEBUG
-#define DPRINT(x) Serial.print(x)
-#define DPRINTLN(x) Serial.println(x)
-#else
-#define DPRINT(x)
-#define DPRINTLN(x)
-#endif
+// #ifdef DEBUG
+// #define DPRINT(x) Serial.print(x)
+// #define DPRINTLN(x) Serial.println(x)
+// #else
+// #define DPRINT(x)
+// #define DPRINTLN(x)
+// #endif
 
 #include <Arduino.h>
 

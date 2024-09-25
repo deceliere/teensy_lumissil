@@ -8,19 +8,16 @@
 #include "video2led.h"
 #include <SD.h>
 
-
 #define WAITMILLIS 500
 
 void IS31FL3737B_Test_mode1(void);
 void IS31FL3737B_init(void);
 uint8_t ledMatrix[192];
 
-
-
 void setup()
 {
-#ifdef DEBUG_VIDEO
-  // #ifdef WAIT_SERIAL
+  // #ifdef DEBUG_VIDEO
+#ifdef WAIT_SERIAL
   Serial.begin(115200);
   while (!Serial)
     ;
@@ -44,7 +41,7 @@ void setup()
     while (1)
       ;
   }
-  
+
   allLedPWMfull();
   delay(200);
 }
