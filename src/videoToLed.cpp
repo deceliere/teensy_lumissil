@@ -154,7 +154,7 @@ void displayFrameBinary()
       if (dot.pwm > 255)
         dot.pwm = 255;
 #elif defined(GAMMA_PWM) // on lit le PWM passe d abord par l exponentiel, puis par le Gamma
-      dot.pwm = gammaPixel(255, expoPWM(lineBuffer[x + X_OFFSET + (y * W_SOURCE + (W_SOURCE * Y_OFFSET) + (12 - y))]), GAMMA);
+      dot.pwm = gammaPixel(255, expoPWM(lineBuffer[x + X_OFFSET + ((12 - y) * W_SOURCE) + (W_SOURCE * Y_OFFSET)]), GAMMA);
 #else
       dot.pwm = lineBuffer[x + X_OFFSET + (y * W_SOURCE + (W_SOURCE * Y_OFFSET) + (12 - y))];
       if (dot.pwm == 1)

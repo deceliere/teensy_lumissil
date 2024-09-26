@@ -25,19 +25,19 @@
 #define RD 3
 #define CS 2 // D2 on firebeetle
 
-#define FRAME_DELAY 16
+#define FRAME_DELAY 18
 // #define BRIGHTNESS 4 // max 15
 
 // #define TOTAL_SOURCE_PIXELS 5184
-#define W_SOURCE 28 // source width
-#define H_SOURCE 15 // source height
-#define W_OUTPUT 24 // panel width
-#define H_OUTPUT 8  // panel height
-#define W_OFFSET 0
-#define H_OFFSET 0
-#define X_OFFSET 4
+#define W_SOURCE 28 // source width 28
+#define H_SOURCE 15 // source height 15
+// #define W_OUTPUT 24 // panel width
+// #define H_OUTPUT 8  // panel height
+// #define W_OFFSET 0
+// #define H_OFFSET 0
+#define X_OFFSET 10
 #define Y_OFFSET 0
-#define GAMMA 1.1
+#define GAMMA 1
 
 // fts
 // test //

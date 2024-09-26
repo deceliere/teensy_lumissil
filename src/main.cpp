@@ -61,6 +61,7 @@ void loop()
   // noiseTest();
   // readAndProcessFile("test_processing_255.txt");
   readAndProcessFileBinary("image_data_binary.bin");
+  // readAndProcessFileBinary("coucou_led_30_17.bin");
   // xfadeTest();
 
   // breathAllLed();
