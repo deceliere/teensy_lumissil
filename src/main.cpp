@@ -27,9 +27,6 @@ void setup()
   // Wire.setClock(800000UL); // I2C 800kHz
   // randomSeed(analogRead(1));
   pinMode(13, OUTPUT);
-  analogWrite(13, 10);
-  delay(500);
-  digitalWrite(13, false);
   IS31FL3737B_init();
   digitalWrite(13, 20);
   DPRINT("Serial ok\n");
@@ -60,7 +57,8 @@ void loop()
   // studipTest();
   // noiseTest();
   // readAndProcessFile("test_processing_255.txt");
-  readAndProcessFileBinary("image_data_binary.bin");
+  // readAndProcessFileBinary("image_data_binary.bin");
+  readAndProcessFileBinaryFade("image_data_binary.bin");
   // readAndProcessFileBinary("coucou_led_30_17.bin");
   // xfadeTest();
 
@@ -98,8 +96,8 @@ void IS31FL3737B_init(void) // white LED
 
   IS_IIC_WriteByte(Addr_GND_GND, 0xFE, 0xc5);           // unlock FDh
   IS_IIC_WriteByte(Addr_GND_GND, 0xFD, 0x03);           // Turn to page 3: function registers
-  IS_IIC_WriteByte(Addr_GND_GND, 0x00, 0x11);           // Release software shutdown to normal operation
   IS_IIC_WriteByte(Addr_GND_GND, 0x01, GLOABL_CURRENT); // global current
+  IS_IIC_WriteByte(Addr_GND_GND, 0x00, 0x11);           // Release software shutdown to normal operation
 }
 
 void IS31FL3737B_Test_mode1(void) // white LED
@@ -411,6 +409,13 @@ void clearBuffer(uint8_t *buffer, int buffLength)
 void writeToBuffer(uint8_t *buffer, matrixDot dot)
 {
   buffer[resolve(dot.col) + resolve(dot.row * 12)] = dot.pwm;
+}
+
+void writeFadeToBuffer(uint8_t *buffer, matrixDot dot)
+{
+  buffer[resolve(dot.col) + resolve(dot.row * 12)] = dot.pwmFade;
+  // DPRINTLN("buffer0=");
+  // DPRINTLN(buffer[0]);
 }
 
 void verticalTest(void)

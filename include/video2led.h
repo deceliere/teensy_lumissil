@@ -1,4 +1,5 @@
 #include <SD.h>
+#include "main.h"
 
 #ifndef VIDEO2LED_H
 #define VIDEO2LED_H
@@ -9,6 +10,7 @@
 // #define WAIT_SERIAL
 // #define EXPO_PWM
 #define GAMMA_PWM
+// #define MIN_LED_1 // min led level = 1  
 
 #ifdef SERIAL_DEBUG
 #define DPRINT(x) Serial.print(x)
@@ -25,19 +27,20 @@
 #define RD 3
 #define CS 2 // D2 on firebeetle
 
-#define FRAME_DELAY 18
+#define FRAME_DELAY 18 // typ 18
 // #define BRIGHTNESS 4 // max 15
 
 // #define TOTAL_SOURCE_PIXELS 5184
 #define W_SOURCE 28 // source width 28
 #define H_SOURCE 15 // source height 15
-// #define W_OUTPUT 24 // panel width
-// #define H_OUTPUT 8  // panel height
+#define W_OUTPUT 12 // panel width
+#define H_OUTPUT 12  // panel height
 // #define W_OFFSET 0
 // #define H_OFFSET 0
 #define X_OFFSET 10
 #define Y_OFFSET 0
 #define GAMMA 1
+#define BUFFER_SIZE 192 // number of pixels (16 * 12 // 16 par ligne, car Lumissil pensé sur une base de 8 > 1 à 6, puis 9 à 14
 
 // fts
 // test //
@@ -53,8 +56,11 @@ extern u_int16_t frameCount;
 void processLine(String line);
 void readAndProcessFile(const char *filename);
 void readAndProcessFileBinary(const char *filename);
+void readAndProcessFileBinaryFade(const char *filename);
 void displayFrame();
-void displayFrameBinary();
+void displayFrameBinary(byte (&binArray)[W_SOURCE * H_SOURCE], byte (&binArrayNext)[W_SOURCE * H_SOURCE]);
+// void displayFrameBinary();
+matrixDot binaryToDot(int x, int y, byte (&binArray)[W_SOURCE * H_SOURCE], byte (&binArrayNext)[W_SOURCE * H_SOURCE]);
 
 // test exponent
 void initExp(void);

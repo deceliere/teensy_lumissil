@@ -5,13 +5,13 @@
 
 // #define DEBUG
 // #define DEBUG_VIDEO
-#define GLOABL_CURRENT 10
+#define GLOABL_CURRENT 100
 #define RANDOM_DROP_DUR 200
 #define RANDOM_DROP_MIN 50
 #define RANDOM_PAUSE_MIN 1000
 #define RANDOM_PAUSE 20000
 #define RANDOM_MAX_PWM 100
-#define RANDOM_PWM_MIN 10
+#define RANDOM_PWM_MIN 1
 
 // #ifdef DEBUG
 // #define DPRINT(x) Serial.print(x)
@@ -25,9 +25,11 @@
 
 typedef struct matrixDot
 {
-    int8_t row;
+    uint8_t row;
     uint8_t col;
     uint8_t pwm;
+    uint8_t pwmNext;
+    uint8_t pwmFade;
     // int8_t postRow;
     // int8_t postPwm;
 
@@ -58,6 +60,7 @@ int resolve(int led);
 void verticalTest(void);
 void clearBuffer(uint8_t *buffer, int buffLength);
 void writeToBuffer(uint8_t *buffer, matrixDot dot);
+void writeFadeToBuffer(uint8_t *buffer, matrixDot dot);
 void drop(void);
 void bufferTest(void);
 void initDrop(dropTimer *drop);
