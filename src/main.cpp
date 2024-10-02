@@ -58,7 +58,8 @@ void loop()
   // noiseTest();
   // readAndProcessFile("test_processing_255.txt");
   // readAndProcessFileBinary("image_data_binary.bin");
-  readAndProcessFileBinaryFade("image_data_binary.bin");
+  // readAndProcessFileBinaryFade("image_data_binary.bin");
+  readAndProcessFileBinaryFadeRandom("image_data_binary.bin");
   // readAndProcessFileBinary("coucou_led_30_17.bin");
   // xfadeTest();
 
@@ -414,8 +415,6 @@ void writeToBuffer(uint8_t *buffer, matrixDot dot)
 void writeFadeToBuffer(uint8_t *buffer, matrixDot dot)
 {
   buffer[resolve(dot.col) + resolve(dot.row * 12)] = dot.pwmFade;
-  // DPRINTLN("buffer0=");
-  // DPRINTLN(buffer[0]);
 }
 
 void verticalTest(void)
@@ -476,27 +475,3 @@ void studipTest(void)
   while (1)
     ;
 }
-/*
-while((0x02==G_Demo_NO))//play Love
-    {
-      I2C_WriteByte(Addr_GND_GND,0xFE,0xc5);//unlock FDh
-      I2C_WriteByte(Addr_GND_GND,0xFD,0x00);//write page 0
-      for(i=0;i<24;i++)
-      I2C_WriteByte(Addr_GND_GND,i,0xff);//open all led
-      I2C_WriteByte(Addr_GND_GND,0xFE,0xc5);//unlock FDh
-      I2C_WriteByte(Addr_GND_GND,0xFD,0x01);//write page 1
-      I2C_BufferWrite((uint8_t*)Love_pwm[g_love_NO],192,00,Addr_GND_GND);//Love_pwm[g_fireworks_NO][j];
-      I2C_WriteByte(Addr_GND_GND,0xFE,0xc5);//unlock FDh
-      I2C_WriteByte(Addr_GND_GND,0xFD,0x03);//write page 3
-
-      I2C_WriteByte(Addr_GND_GND,0x00,0x01);//normal operation
-
-      I2C_WriteByte(Addr_GND_GND,0x01,0xFF);//set current
-      g_love_NO++;
-        Delay_us(10000);//100ms
-      if(g_love_NO==18)
-      {
-        g_love_NO=0;
-        Delay_us(20000);
-      }
-*/

@@ -3,9 +3,8 @@
 
 // #include "video2led.h"
 
-// #define DEBUG
 // #define DEBUG_VIDEO
-#define GLOABL_CURRENT 100
+#define GLOABL_CURRENT 50
 #define RANDOM_DROP_DUR 200
 #define RANDOM_DROP_MIN 50
 #define RANDOM_PAUSE_MIN 1000
@@ -28,8 +27,13 @@ typedef struct matrixDot
     uint8_t row;
     uint8_t col;
     uint8_t pwm;
+    uint8_t pwmTmp;
     uint8_t pwmNext;
+    uint8_t pwmNextTmp;
     uint8_t pwmFade;
+    uint16_t currentRandomTimer;
+    uint16_t nextRandomTimer;
+    elapsedMillis pixelTimer;
     // int8_t postRow;
     // int8_t postPwm;
 
